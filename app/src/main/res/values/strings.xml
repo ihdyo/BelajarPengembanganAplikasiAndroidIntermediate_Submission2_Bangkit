@@ -40,7 +40,7 @@
     <string name="dateStory">created on:</string>
     <string name="warningAddImage">Add a photo!</string>
     <string name="warningAddDescription">Add a description!</string>
-    <string name="maps">See Maps</string>
+    <string name="maps">Maps</string>
     <string name="standardMap">Standard Map</string>
     <string name="nightMap">Night Map</string>
     <string name="useMyLocation">Use my location</string>

@@ -32,10 +32,9 @@ class SetLocationActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        supportActionBar?.title = "Set A Location"
         binding = ActivitySetLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         updateButtonStyle(binding.myLocation, false)
         updateButtonStyle(binding.locationPick, false)
         setActions()

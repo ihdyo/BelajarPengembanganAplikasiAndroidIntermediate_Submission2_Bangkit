@@ -36,8 +36,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         ifClicked()
 
-        supportActionBar?.title = "Login"
-
         val preferences = UserPreferences.getInstance(dataStore)
         val dataStoreViewModel =
             ViewModelProvider(this, ViewModelFactory(preferences))[DataStoreViewModel::class.java]

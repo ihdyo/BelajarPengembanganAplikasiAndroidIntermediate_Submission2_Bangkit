@@ -19,9 +19,6 @@ class DetailActivity : AppCompatActivity() {
 
         val story = intent.getParcelableExtra<DataDetail>(EXTRA_STORY) as DataDetail
         setStory(story)
-
-        supportActionBar?.title = getString(R.string.detail_title, story.name)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {

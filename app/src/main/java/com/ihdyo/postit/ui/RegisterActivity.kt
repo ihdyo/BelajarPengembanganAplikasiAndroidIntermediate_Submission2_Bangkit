@@ -33,8 +33,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = resources.getString(R.string.createAccount)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ifClicked()
 
         val pref = UserPreferences.getInstance(dataStore)
@@ -121,8 +119,6 @@ class RegisterActivity : AppCompatActivity() {
                 binding.RetypePassword.transformationMethod =
                     PasswordTransformationMethod.getInstance()
             }
-
-            // Set selection to end of text
             binding.RegistPassword.text?.let { binding.RegistPassword.setSelection(it.length) }
             binding.RetypePassword.text?.let { binding.RetypePassword.setSelection(it.length) }
         }

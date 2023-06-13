@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ihdyo.postit.data.db.DataDetail
 import com.ihdyo.postit.R
-import com.ihdyo.postit.databinding.PostItemBinding
+import com.ihdyo.postit.databinding.ItemStoryBinding
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,7 +21,7 @@ class StoryAdapter : PagingDataAdapter<DataDetail, StoryAdapter.ListViewHolder>(
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) { this.onItemClickCallback = onItemClickCallback }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        val binding = PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 
@@ -32,7 +32,7 @@ class StoryAdapter : PagingDataAdapter<DataDetail, StoryAdapter.ListViewHolder>(
         }
     }
 
-    class ListViewHolder(private var binding: PostItemBinding) :
+    class ListViewHolder(private var binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: DataDetail) {
             binding.authorStory.text = data.name

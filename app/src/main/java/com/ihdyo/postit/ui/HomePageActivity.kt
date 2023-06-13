@@ -2,6 +2,7 @@ package com.ihdyo.postit.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -49,6 +50,13 @@ class HomePageActivity : AppCompatActivity() {
         dataStoreViewModel.getToken().observe(this) {
             token = it
             setUserData(it)
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            Handler().postDelayed({
+                recreate()
+                binding.swipeRefreshLayout.isRefreshing = false
+            }, 500)
         }
     }
 

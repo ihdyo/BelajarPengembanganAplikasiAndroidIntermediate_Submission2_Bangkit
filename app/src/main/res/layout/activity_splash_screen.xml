@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
-        android:alpha="0"
         android:text="@string/make_yourself_a_post"
         android:textColor="@color/black"
         android:textSize="12sp"

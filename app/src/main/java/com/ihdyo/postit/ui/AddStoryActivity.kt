@@ -57,8 +57,6 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = resources.getString(R.string.post_users)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         ifClicked()
 
         val preferences = UserPreferences.getInstance(dataStore)
