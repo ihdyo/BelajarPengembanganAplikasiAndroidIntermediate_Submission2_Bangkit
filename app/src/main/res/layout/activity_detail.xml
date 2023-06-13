@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".userinterface.DetailActivity"
+        tools:context=".ui.DetailActivity"
         android:paddingBottom="10dp">
 
         <ImageView

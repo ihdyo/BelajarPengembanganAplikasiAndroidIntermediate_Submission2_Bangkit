@@ -41,27 +41,31 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".userinterface.MapsActivity"
+            android:name=".ui.MapsActivity"
             android:exported="false"
-            android:label="MapsActivity" />
+            android:label="MapsActivity"
+            android:theme="@style/Theme.Postit.Fullscreen"/>
         <activity
-            android:name=".userinterface.SetLocationActivity"
+            android:name=".ui.SetLocationActivity"
             android:exported="true"
-            android:label="PickLocationActivity" />
+            android:label="PickLocationActivity"
+            android:theme="@style/Theme.Postit.Fullscreen"/>
 
         <activity
-            android:name=".userinterface.AddStoryActivity"
+            android:name=".ui.AddStoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Postit.Fullscreen"/>
+        <activity
+            android:name=".ui.DetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Postit.Fullscreen"/>
+        <activity
+            android:name=".ui.HomePageActivity"
             android:exported="false" />
         <activity
-            android:name=".userinterface.DetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".userinterface.HomePageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".userinterface.SplashScreenActivity"
+            android:name=".ui.SplashScreenActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.NoActionBar">
+            android:theme="@style/Theme.Postit.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,11 +73,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".userinterface.RegisterActivity"
-            android:exported="false" />
+            android:name=".ui.RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Postit.Fullscreen"/>
         <activity
-            android:name=".userinterface.LoginActivity"
-            android:exported="true" />
+            android:name=".ui.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Postit.Fullscreen"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

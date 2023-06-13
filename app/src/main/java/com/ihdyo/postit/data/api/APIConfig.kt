@@ -1,4 +1,4 @@
-package com.ihdyo.postit.api
+package com.ihdyo.postit.data.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

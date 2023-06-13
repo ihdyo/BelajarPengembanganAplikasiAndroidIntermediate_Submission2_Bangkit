@@ -1,4 +1,4 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,9 +17,9 @@ import com.ihdyo.postit.viewmodel.MainViewModel
 import com.ihdyo.postit.viewmodel.MainViewModelFactory
 import com.ihdyo.postit.viewmodel.ViewModelFactory
 import com.ihdyo.postit.R
-import com.ihdyo.postit.adapter.LoadingStateAdapter
-import com.ihdyo.postit.adapter.StoryListAdapter
-import com.ihdyo.postit.database.ListStoryDetail
+import com.ihdyo.postit.adapter.LoadStateAdapter
+import com.ihdyo.postit.adapter.StoryAdapter
+import com.ihdyo.postit.data.db.DataDetail
 import com.ihdyo.postit.databinding.ActivityHomePageBinding
 
 class HomePageActivity : AppCompatActivity() {
@@ -55,9 +55,9 @@ class HomePageActivity : AppCompatActivity() {
     @OptIn(ExperimentalPagingApi::class)
     private fun setUserData(token: String) {
 
-        val adapter = StoryListAdapter()
+        val adapter = StoryAdapter()
         binding.rvStories.adapter = adapter.withLoadStateFooter(
-            footer = LoadingStateAdapter {
+            footer = LoadStateAdapter {
                 adapter.retry()
             })
 
@@ -65,14 +65,14 @@ class HomePageActivity : AppCompatActivity() {
             adapter.submitData(lifecycle, it)
         }
 
-        adapter.setOnItemClickCallback(object : StoryListAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: ListStoryDetail) {
+        adapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: DataDetail) {
                 sendSelectedUser(data)
             }
         })
     }
 
-    private fun sendSelectedUser(data: ListStoryDetail) {
+    private fun sendSelectedUser(data: DataDetail) {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra(DetailActivity.EXTRA_STORY, data)
         startActivity(intent)

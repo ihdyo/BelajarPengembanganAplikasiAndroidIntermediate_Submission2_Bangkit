@@ -8,8 +8,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.ihdyo.postit.R
 
-class CustomName : AppCompatEditText, View.OnFocusChangeListener {
-
+class CVUsername : AppCompatEditText, View.OnFocusChangeListener {
     var isNameValid = false
 
     constructor(context: Context) : super(context) {
@@ -31,6 +30,7 @@ class CustomName : AppCompatEditText, View.OnFocusChangeListener {
     private fun init() {
         background = ContextCompat.getDrawable(context, R.drawable.border)
         inputType = InputType.TYPE_CLASS_TEXT
+
         onFocusChangeListener = this
     }
 

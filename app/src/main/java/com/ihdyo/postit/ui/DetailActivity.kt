@@ -1,11 +1,11 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.ihdyo.postit.R
-import com.ihdyo.postit.adapter.StoryListAdapter
-import com.ihdyo.postit.database.ListStoryDetail
+import com.ihdyo.postit.adapter.StoryAdapter
+import com.ihdyo.postit.data.db.DataDetail
 import com.ihdyo.postit.databinding.ActivityDetailBinding
 import com.ihdyo.postit.helper.LocationConverter
 
@@ -17,7 +17,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val story = intent.getParcelableExtra<ListStoryDetail>(EXTRA_STORY) as ListStoryDetail
+        val story = intent.getParcelableExtra<DataDetail>(EXTRA_STORY) as DataDetail
         setStory(story)
 
         supportActionBar?.title = getString(R.string.detail_title, story.name)
@@ -30,11 +30,11 @@ class DetailActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun setStory(story: ListStoryDetail) {
+    private fun setStory(story: DataDetail) {
         binding.apply {
             tvDetailName.text = story.name
             tvDetailDesc.text = story.description
-            tvDetailDate.text = StoryListAdapter.formatDateToString(story.createdAt.toString())
+            tvDetailDate.text = StoryAdapter.formatDateToString(story.createdAt.toString())
         }
 
         binding.tvAddress.text = LocationConverter.getStringAddress(

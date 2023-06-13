@@ -1,4 +1,4 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.content.Context
 import android.content.Intent
@@ -18,7 +18,7 @@ import com.ihdyo.postit.viewmodel.MainViewModel
 import com.ihdyo.postit.viewmodel.MainViewModelFactory
 import com.ihdyo.postit.viewmodel.ViewModelFactory
 import com.ihdyo.postit.R
-import com.ihdyo.postit.dataclass.LoginDataAccount
+import com.ihdyo.postit.data.dc.LoginDataAccount
 import com.ihdyo.postit.databinding.ActivityLoginBinding
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")

@@ -1,4 +1,4 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.app.Activity
 import android.content.ContentResolver

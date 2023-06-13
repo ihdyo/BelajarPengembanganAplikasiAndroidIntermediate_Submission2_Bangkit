@@ -1,19 +1,19 @@
 package com.ihdyo.postit.customview
 
 import android.content.Context
+import android.graphics.Rect
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.ihdyo.postit.R
 
-class CustomPasswordChecker : AppCompatEditText, View.OnFocusChangeListener {
-
-    var isPasswordValid = false
+class CVPassword : AppCompatEditText, View.OnTouchListener {
+    var isPasswordValid: Boolean = false
 
     init {
         init()
@@ -38,7 +38,6 @@ class CustomPasswordChecker : AppCompatEditText, View.OnFocusChangeListener {
     private fun init() {
         background = ContextCompat.getDrawable(context, R.drawable.border)
         transformationMethod = PasswordTransformationMethod.getInstance()
-        onFocusChangeListener = this
 
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -51,19 +50,21 @@ class CustomPasswordChecker : AppCompatEditText, View.OnFocusChangeListener {
         })
     }
 
-    override fun onFocusChange(v: View?, hasFocus: Boolean) {
-        if (!hasFocus) {
+    override fun onTouch(v: View?, event: MotionEvent): Boolean {
+        return false
+    }
+
+    override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect)
+        if (!focused) {
             validatePassword()
         }
     }
 
     private fun validatePassword() {
-        val password = text.toString().trim()
-        val confirmPassword = (parent as ViewGroup).findViewById<CustomPassword>(R.id.RegistPassword).text.toString().trim()
-
-        isPasswordValid = password.length >= 6 && password == confirmPassword
+        isPasswordValid = (text?.length ?: 0) >= 6
         error = if (!isPasswordValid) {
-            resources.getString(R.string.passwordNotMatch)
+            resources.getString(R.string.passwordLess)
         } else {
             null
         }

@@ -1,11 +1,11 @@
-package com.ihdyo.postit.api
+package com.ihdyo.postit.data.api
 
-import com.ihdyo.postit.dataclass.LoginDataAccount
-import com.ihdyo.postit.dataclass.RegisterDataAccount
-import com.ihdyo.postit.dataclass.ResponseDetail
-import com.ihdyo.postit.dataclass.ResponseLocationStory
-import com.ihdyo.postit.dataclass.ResponseLogin
-import com.ihdyo.postit.dataclass.ResponsePagingStory
+import com.ihdyo.postit.data.dc.LoginDataAccount
+import com.ihdyo.postit.data.dc.RegisterDataAccount
+import com.ihdyo.postit.data.dc.ResponseDetail
+import com.ihdyo.postit.data.dc.ResponseLocationStory
+import com.ihdyo.postit.data.dc.ResponseLogin
+import com.ihdyo.postit.data.dc.ResponsePagingStory
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call

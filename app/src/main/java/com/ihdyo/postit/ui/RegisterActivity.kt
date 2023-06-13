@@ -1,4 +1,4 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.ihdyo.postit.R
 import com.ihdyo.postit.UserPreferences
 import com.ihdyo.postit.databinding.ActivityRegisterBinding
-import com.ihdyo.postit.dataclass.LoginDataAccount
-import com.ihdyo.postit.dataclass.RegisterDataAccount
+import com.ihdyo.postit.data.dc.LoginDataAccount
+import com.ihdyo.postit.data.dc.RegisterDataAccount
 import com.ihdyo.postit.viewmodel.DataStoreViewModel
 import com.ihdyo.postit.viewmodel.MainViewModel
 import com.ihdyo.postit.viewmodel.MainViewModelFactory

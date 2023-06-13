@@ -3,7 +3,7 @@ package com.ihdyo.postit.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ihdyo.postit.di.Injection
+import com.ihdyo.postit.data.di.Injection
 
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

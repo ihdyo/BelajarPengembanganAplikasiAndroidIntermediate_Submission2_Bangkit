@@ -3,16 +3,16 @@ package com.ihdyo.postit.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.*
-import com.ihdyo.postit.api.APIConfig
-import com.ihdyo.postit.api.APIService
-import com.ihdyo.postit.database.ListStoryDetail
-import com.ihdyo.postit.database.StoryDatabase
+import com.ihdyo.postit.data.api.APIConfig
+import com.ihdyo.postit.data.api.APIService
+import com.ihdyo.postit.data.db.DataDetail
+import com.ihdyo.postit.data.db.StoryDB
 import com.ihdyo.postit.wrapEspressoIdlingResource
-import com.ihdyo.postit.dataclass.LoginDataAccount
-import com.ihdyo.postit.dataclass.RegisterDataAccount
-import com.ihdyo.postit.dataclass.ResponseDetail
-import com.ihdyo.postit.dataclass.ResponseLocationStory
-import com.ihdyo.postit.dataclass.ResponseLogin
+import com.ihdyo.postit.data.dc.LoginDataAccount
+import com.ihdyo.postit.data.dc.RegisterDataAccount
+import com.ihdyo.postit.data.dc.ResponseDetail
+import com.ihdyo.postit.data.dc.ResponseLocationStory
+import com.ihdyo.postit.data.dc.ResponseLogin
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -20,11 +20,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainRepository(
-    private val storyDatabase: StoryDatabase,
+    private val storyDatabase: StoryDB,
     private val apiService: APIService
 ) {
-    private var _stories = MutableLiveData<List<ListStoryDetail>>()
-    var stories: LiveData<List<ListStoryDetail>> = _stories
+    private var _stories = MutableLiveData<List<DataDetail>>()
+    var stories: LiveData<List<DataDetail>> = _stories
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -165,7 +165,7 @@ class MainRepository(
     }
 
     @ExperimentalPagingApi
-    fun getPagingStories(token: String): LiveData<PagingData<ListStoryDetail>> {
+    fun getPagingStories(token: String): LiveData<PagingData<DataDetail>> {
         val pager = Pager(
             config = PagingConfig(
                 pageSize = 5
@@ -177,5 +177,4 @@ class MainRepository(
         )
         return pager.liveData
     }
-
 }

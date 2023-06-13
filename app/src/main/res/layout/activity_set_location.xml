@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userinterface.SetLocationActivity">
+    tools:context=".ui.SetLocationActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -23,7 +23,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".userinterface.SetLocationActivity" />
+            tools:context=".ui.SetLocationActivity" />
 
     </androidx.cardview.widget.CardView>
 

@@ -6,17 +6,17 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.ihdyo.postit.database.ListStoryDetail
-import com.ihdyo.postit.dataclass.LoginDataAccount
-import com.ihdyo.postit.dataclass.RegisterDataAccount
-import com.ihdyo.postit.dataclass.ResponseLogin
+import com.ihdyo.postit.data.db.DataDetail
+import com.ihdyo.postit.data.dc.LoginDataAccount
+import com.ihdyo.postit.data.dc.RegisterDataAccount
+import com.ihdyo.postit.data.dc.ResponseLogin
 import com.ihdyo.postit.repository.MainRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    val stories: LiveData<List<ListStoryDetail>> = mainRepository.stories
+    val stories: LiveData<List<DataDetail>> = mainRepository.stories
 
     val message: LiveData<String> = mainRepository.message
 
@@ -43,7 +43,7 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
     }
 
     @ExperimentalPagingApi
-    fun getPagingStories(token: String): LiveData<PagingData<ListStoryDetail>> {
+    fun getPagingStories(token: String): LiveData<PagingData<DataDetail>> {
         return mainRepository.getPagingStories(token).cachedIn(viewModelScope)
     }
 

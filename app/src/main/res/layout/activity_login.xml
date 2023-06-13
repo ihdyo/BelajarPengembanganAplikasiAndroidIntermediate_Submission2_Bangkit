@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userinterface.LoginActivity"
+    tools:context=".ui.LoginActivity"
     tools:ignore="MissingDefaultResource">
 
     <ImageView
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogo"/>
 
-    <com.ihdyo.postit.customview.CustomEmail
+    <com.ihdyo.postit.customview.CVEmail
         android:id="@+id/CVEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginDescription"/>
 
-    <com.ihdyo.postit.customview.CustomPassword
+    <com.ihdyo.postit.customview.CVPassword
         android:id="@+id/PasswordLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

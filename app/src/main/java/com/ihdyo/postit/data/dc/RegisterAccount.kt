@@ -1,6 +1,6 @@
-package com.ihdyo.postit.dataclass
+package com.ihdyo.postit.data.dc
 
-import com.ihdyo.postit.database.ListStoryDetail
+import com.ihdyo.postit.data.db.DataDetail
 import com.google.gson.annotations.SerializedName
 
 data class RegisterDataAccount(
@@ -39,7 +39,7 @@ data class ResponseLocationStory(
     var message: String,
 
     @field:SerializedName("listStory")
-    var listStory: List<ListStoryDetail>
+    var listStory: List<DataDetail>
 )
 
 data class ResponsePagingStory(
@@ -50,5 +50,5 @@ data class ResponsePagingStory(
     var message: String,
 
     @field:SerializedName("listStory")
-    var listStory: List<ListStoryDetail>
+    var listStory: List<DataDetail>
 )

@@ -1,4 +1,4 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator

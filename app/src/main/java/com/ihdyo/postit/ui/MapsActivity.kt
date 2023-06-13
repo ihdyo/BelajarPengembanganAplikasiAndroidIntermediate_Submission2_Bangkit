@@ -1,4 +1,4 @@
-package com.ihdyo.postit.userinterface
+package com.ihdyo.postit.ui
 
 import android.content.ContentValues.TAG
 import android.content.res.Resources
@@ -15,7 +15,7 @@ import com.ihdyo.postit.viewmodel.DataStoreViewModel
 import com.ihdyo.postit.viewmodel.MainViewModel
 import com.ihdyo.postit.viewmodel.MainViewModelFactory
 import com.ihdyo.postit.viewmodel.ViewModelFactory
-import com.ihdyo.postit.database.ListStoryDetail
+import com.ihdyo.postit.data.db.DataDetail
 import com.ihdyo.postit.helper.LocationConverter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -77,7 +77,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.progressBar4.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun setMarker(data: List<ListStoryDetail>) {
+    private fun setMarker(data: List<DataDetail>) {
         lateinit var locationZoom: LatLng
         data.forEach {
             if (it.lat != null && it.lon != null) {
