@@ -19,12 +19,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainRepository(
+class UserRepository(
     private val storyDatabase: StoryDB,
     private val apiService: APIService
 ) {
-    private var _stories = MutableLiveData<List<DataDetail>>()
-    var stories: LiveData<List<DataDetail>> = _stories
+    private val _stories = MutableLiveData<List<DataDetail>>()
+    val stories: LiveData<List<DataDetail>> = _stories
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -33,13 +33,12 @@ class MainRepository(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _userLogin = MutableLiveData<ResponseLogin>()
-    var userlogin: LiveData<ResponseLogin> = _userLogin
+    val userLogin: LiveData<ResponseLogin> = _userLogin
 
     fun getResponseLogin(loginDataAccount: LoginDataAccount) {
         wrapEspressoIdlingResource {
             _isLoading.value = true
-            val api = APIConfig.getApiService().loginUser(loginDataAccount)
-            api.enqueue(object : Callback<ResponseLogin> {
+            apiService.loginUser(loginDataAccount).enqueue(object : Callback<ResponseLogin> {
                 override fun onResponse(
                     call: Call<ResponseLogin>,
                     response: Response<ResponseLogin>
@@ -52,20 +51,17 @@ class MainRepository(
                         _message.value = "Hello ${_userLogin.value!!.loginResult.name}!"
                     } else {
                         when (response.code()) {
-                            401 -> _message.value =
-                                "Wrong data, try again!"
-                            408 -> _message.value =
-                                "Lost connection, try again!"
-                            else -> _message.value = "Pesan error: " + response.message()
+                            401 -> _message.value = "Wrong data, try again!"
+                            408 -> _message.value = "Lost connection, try again!"
+                            else -> _message.value = "Error message: ${response.message()}"
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
                     _isLoading.value = false
-                    _message.value = "Error message: " + t.message.toString()
+                    _message.value = "Error message: ${t.message}"
                 }
-
             })
         }
     }
@@ -73,8 +69,7 @@ class MainRepository(
     fun getResponseRegister(registDataUser: RegisterDataAccount) {
         wrapEspressoIdlingResource {
             _isLoading.value = true
-            val api = APIConfig.getApiService().registUser(registDataUser)
-            api.enqueue(object : Callback<ResponseDetail> {
+            apiService.registUser(registDataUser).enqueue(object : Callback<ResponseDetail> {
                 override fun onResponse(
                     call: Call<ResponseDetail>,
                     response: Response<ResponseDetail>
@@ -84,20 +79,17 @@ class MainRepository(
                         _message.value = "Account created!"
                     } else {
                         when (response.code()) {
-                            400 -> _message.value =
-                                "Email was taken, try another!"
-                            408 -> _message.value =
-                                "Lost connection, try again!"
-                            else -> _message.value = "Error message: " + response.message()
+                            400 -> _message.value = "Email was taken, try another!"
+                            408 -> _message.value = "Lost connection, try again!"
+                            else -> _message.value = "Error message: ${response.message()}"
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseDetail>, t: Throwable) {
                     _isLoading.value = false
-                    _message.value = "Error message: " + t.message.toString()
+                    _message.value = "Error message: ${t.message}"
                 }
-
             })
         }
     }
@@ -110,36 +102,33 @@ class MainRepository(
         token: String
     ) {
         _isLoading.value = true
-        val service = APIConfig.getApiService().addStory(
-            photo, des, lat?.toFloat(), lng?.toFloat(), "Bearer $token"
-        )
-        service.enqueue(object : Callback<ResponseDetail> {
-            override fun onResponse(
-                call: Call<ResponseDetail>,
-                response: Response<ResponseDetail>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody != null && !responseBody.error) {
-                        _message.value = responseBody.message
+        apiService.addStory(photo, des, lat?.toFloat(), lng?.toFloat(), "Bearer $token")
+            .enqueue(object : Callback<ResponseDetail> {
+                override fun onResponse(
+                    call: Call<ResponseDetail>,
+                    response: Response<ResponseDetail>
+                ) {
+                    _isLoading.value = false
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && !responseBody.error) {
+                            _message.value = responseBody.message
+                        }
+                    } else {
+                        _message.value = response.message()
                     }
-                } else {
-                    _message.value = response.message()
                 }
-            }
 
-            override fun onFailure(call: Call<ResponseDetail>, t: Throwable) {
-                _isLoading.value = false
-                _message.value = t.message
-            }
-        })
+                override fun onFailure(call: Call<ResponseDetail>, t: Throwable) {
+                    _isLoading.value = false
+                    _message.value = t.message
+                }
+            })
     }
 
     fun getStories(token: String) {
         _isLoading.value = true
-        val api = APIConfig.getApiService().getLocationStory(32, 1, "Bearer $token")
-        api.enqueue(object : Callback<ResponseLocationStory> {
+        apiService.getLocationStory(32, 1, "Bearer $token").enqueue(object : Callback<ResponseLocationStory> {
             override fun onResponse(
                 call: Call<ResponseLocationStory>,
                 response: Response<ResponseLocationStory>
@@ -151,7 +140,6 @@ class MainRepository(
                         _stories.value = responseBody.listStory
                     }
                     _message.value = responseBody?.message.toString()
-
                 } else {
                     _message.value = response.message()
                 }
@@ -166,15 +154,12 @@ class MainRepository(
 
     @ExperimentalPagingApi
     fun getPagingStories(token: String): LiveData<PagingData<DataDetail>> {
-        val pager = Pager(
+        return Pager(
             config = PagingConfig(
-                pageSize = 5
+                pageSize = 3
             ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService, token),
-            pagingSourceFactory = {
-                storyDatabase.getListStoryDetailDao().getAllStories()
-            }
-        )
-        return pager.liveData
+            remoteMediator = StoryRemote(storyDatabase, apiService, token),
+            pagingSourceFactory = { storyDatabase.getListStoryDetailDao().getAllStories() }
+        ).liveData
     }
 }

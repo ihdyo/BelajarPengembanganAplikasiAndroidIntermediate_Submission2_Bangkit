@@ -1,7 +1,9 @@
 package com.ihdyo.postit.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +13,10 @@ import com.ihdyo.postit.R
 import com.ihdyo.postit.databinding.ItemStoryBinding
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class StoryAdapter : PagingDataAdapter<DataDetail, StoryAdapter.ListViewHolder>(StoryDetailDiffCallback()) {
@@ -25,6 +31,7 @@ class StoryAdapter : PagingDataAdapter<DataDetail, StoryAdapter.ListViewHolder>(
         return ListViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         getItem(position)?.let { item ->
             holder.bind(item)
@@ -34,6 +41,7 @@ class StoryAdapter : PagingDataAdapter<DataDetail, StoryAdapter.ListViewHolder>(
 
     class ListViewHolder(private var binding: ItemStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(data: DataDetail) {
             binding.authorStory.text = data.name
             binding.dateStory.text = formatDateToString(data.createdAt.toString())
@@ -50,19 +58,16 @@ class StoryAdapter : PagingDataAdapter<DataDetail, StoryAdapter.ListViewHolder>(
     }
 
     companion object {
+        @RequiresApi(Build.VERSION_CODES.O)
         @JvmStatic
         fun formatDateToString(dateString: String): String {
-            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm.SSS'Z'", Locale.getDefault())
-            val outputDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-            val date: Date?
-            var outputDate = ""
+            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm.SSS'Z'", Locale.getDefault())
+            val outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.getDefault())
 
-            try {
-                date = inputDateFormat.parse(dateString)
-                outputDate = outputDateFormat.format(date!!)
-            } catch (e: ParseException) { e.printStackTrace() }
+            val instant = Instant.parse(dateString)
+            val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
 
-            return outputDate
+            return outputFormatter.format(localDateTime)
         }
     }
 }

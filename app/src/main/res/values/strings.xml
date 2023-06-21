@@ -44,7 +44,7 @@
     <string name="standardMap">Standard Map</string>
     <string name="nightMap">Night Map</string>
     <string name="useMyLocation">Use my location</string>
-    <string name="usePickLocation">Use the location that I pick</string>
+    <string name="usePickLocation">Use custom location</string>
     <string name="setLocation">Click map to set location</string>
     <string name="icon_map_pin">Icon map pin</string>
     <string name="yourLocation">Pick Your Location</string>

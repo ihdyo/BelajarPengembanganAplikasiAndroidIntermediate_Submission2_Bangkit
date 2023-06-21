@@ -10,8 +10,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.ExperimentalPagingApi
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ihdyo.postit.UserPreferences
 import com.ihdyo.postit.viewmodel.DataStoreViewModel
 import com.ihdyo.postit.viewmodel.MainViewModel
@@ -23,6 +25,7 @@ import com.ihdyo.postit.adapter.StoryAdapter
 import com.ihdyo.postit.data.db.DataDetail
 import com.ihdyo.postit.databinding.ActivityHomePageBinding
 
+@Suppress("DEPRECATION")
 class HomePageActivity : AppCompatActivity() {
     private val pref by lazy {
         UserPreferences.getInstance(dataStore)
@@ -38,7 +41,7 @@ class HomePageActivity : AppCompatActivity() {
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = resources.getString(R.string.home)
-        ifClicked()
+        setupUI()
 
         val layoutManager = LinearLayoutManager(this)
         binding.rvStories.layoutManager = layoutManager
@@ -62,12 +65,11 @@ class HomePageActivity : AppCompatActivity() {
 
     @OptIn(ExperimentalPagingApi::class)
     private fun setUserData(token: String) {
-
         val adapter = StoryAdapter()
-        binding.rvStories.adapter = adapter.withLoadStateFooter(
-            footer = LoadStateAdapter {
-                adapter.retry()
-            })
+        val loadStateAdapter = LoadStateAdapter { adapter.retry() }
+
+        val concatAdapter = ConcatAdapter(adapter, loadStateAdapter)
+        binding.rvStories.adapter = concatAdapter
 
         homePageViewModel.getPagingStories(token).observe(this) {
             adapter.submitData(lifecycle, it)
@@ -86,7 +88,7 @@ class HomePageActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun ifClicked() {
+    private fun setupUI() {
         binding.btnFloating.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }

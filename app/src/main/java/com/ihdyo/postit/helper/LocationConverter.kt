@@ -12,44 +12,38 @@ import java.lang.StringBuilder
 class LocationConverter {
     companion object {
         fun toLatlng(lat: Double?, lng: Double?): LatLng? {
-            println("test")
             return if (lat != null && lng != null) {
                 LatLng(lat, lng)
-
             } else null
         }
 
-        fun getStringAddress(
-            latlng: LatLng?,
-            context: Context
-        ): String {
+        fun getStringAddress(latlng: LatLng?, context: Context): String {
             var fullAddress = "No Location"
 
             try {
                 if (latlng != null) {
-                    val address: Address?
-                    val gc = Geocoder(context)
-                    val list: List<Address> =
-                        gc.getFromLocation(latlng.latitude, latlng.longitude, 1) as List<Address>
-                    address = if (list.isNotEmpty()) list[0] else null
+                    val geocoder = Geocoder(context)
+                    val addresses: List<Address> =
+                        geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1) as List<Address>
 
-                    if (address != null) {
+                    if (addresses.isNotEmpty()) {
+                        val address = addresses[0]
                         val city = address.locality
                         val state = address.adminArea
                         val country = address.countryName
 
                         fullAddress = address.getAddressLine(0)
                             ?: if (city != null && state != null && country != null) {
-                                StringBuilder(city).append(", $state").append(", $country")
-                                    .toString()
+                                "$city, $state, $country"
                             } else if (state != null && country != null) {
-                                StringBuilder(state).append(", $country").toString()
-                            } else country ?: "Unknown location name"
+                                "$state, $country"
+                            } else {
+                                country ?: "Unknown location name"
+                            }
                     }
-
                 }
             } catch (e: Exception) {
-                Log.d("ERROR", "ERROR: $e")
+                e.printStackTrace()
             }
 
             return fullAddress

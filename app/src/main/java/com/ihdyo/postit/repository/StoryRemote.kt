@@ -11,7 +11,7 @@ import com.ihdyo.postit.data.db.Key
 import com.ihdyo.postit.data.db.StoryDB
 
 @OptIn(ExperimentalPagingApi::class)
-class StoryRemoteMediator(
+class StoryRemote(
     private val database: StoryDB,
     private val apiService: APIService,
     token: String
@@ -21,7 +21,6 @@ class StoryRemoteMediator(
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
         const val LOCATION = 0
-
     }
 
     override suspend fun initialize(): InitializeAction {
@@ -62,7 +61,7 @@ class StoryRemoteMediator(
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     database.getRemoteKeysDao().deleteRemoteKeys()
-                    with(database) { getListStoryDetailDao().deleteAll() }
+                    database.getListStoryDetailDao().deleteAll()
                 }
                 val prevKey = if (page == 1) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -98,5 +97,4 @@ class StoryRemoteMediator(
             }
         }
     }
-
 }

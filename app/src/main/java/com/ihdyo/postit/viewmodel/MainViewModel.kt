@@ -10,26 +10,26 @@ import com.ihdyo.postit.data.db.DataDetail
 import com.ihdyo.postit.data.dc.LoginDataAccount
 import com.ihdyo.postit.data.dc.RegisterDataAccount
 import com.ihdyo.postit.data.dc.ResponseLogin
-import com.ihdyo.postit.repository.MainRepository
+import com.ihdyo.postit.repository.UserRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
+class MainViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    val stories: LiveData<List<DataDetail>> = mainRepository.stories
+    val stories: LiveData<List<DataDetail>> = userRepository.stories
 
-    val message: LiveData<String> = mainRepository.message
+    val message: LiveData<String> = userRepository.message
 
-    val isLoading: LiveData<Boolean> = mainRepository.isLoading
+    val isLoading: LiveData<Boolean> = userRepository.isLoading
 
-    val userlogin: LiveData<ResponseLogin> = mainRepository.userlogin
+    val userlogin: LiveData<ResponseLogin> = userRepository.userLogin
 
     fun login(loginDataAccount: LoginDataAccount) {
-        mainRepository.getResponseLogin(loginDataAccount)
+        userRepository.getResponseLogin(loginDataAccount)
     }
 
     fun register(registDataUser: RegisterDataAccount) {
-        mainRepository.getResponseRegister(registDataUser)
+        userRepository.getResponseRegister(registDataUser)
     }
 
     fun upload(
@@ -39,15 +39,15 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         lng: Double?,
         token: String
     ) {
-        mainRepository.upload(photo, des, lat, lng, token)
+        userRepository.upload(photo, des, lat, lng, token)
     }
 
     @ExperimentalPagingApi
     fun getPagingStories(token: String): LiveData<PagingData<DataDetail>> {
-        return mainRepository.getPagingStories(token).cachedIn(viewModelScope)
+        return userRepository.getPagingStories(token).cachedIn(viewModelScope)
     }
 
     fun getStories(token: String) {
-        mainRepository.getStories(token)
+        userRepository.getStories(token)
     }
 }

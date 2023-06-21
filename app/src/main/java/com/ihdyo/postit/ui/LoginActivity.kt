@@ -101,13 +101,15 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.seePassword.setOnCheckedChangeListener { _, isChecked ->
-            binding.PasswordLogin.transformationMethod = if (isChecked) {
-                HideReturnsTransformationMethod.getInstance()
-            } else {
+        binding.seePassword.setOnClickListener {
+            val isPasswordVisible = binding.PasswordLogin.transformationMethod is HideReturnsTransformationMethod
+            val transformationMethod = if (isPasswordVisible) {
                 PasswordTransformationMethod.getInstance()
+            } else {
+                HideReturnsTransformationMethod.getInstance()
             }
-            binding.PasswordLogin.text?.let { binding.PasswordLogin.setSelection(it.length) }
+            binding.PasswordLogin.transformationMethod = transformationMethod
+            binding.PasswordLogin.setSelection(binding.PasswordLogin.text?.length ?: 0)
         }
     }
 

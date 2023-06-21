@@ -11,6 +11,24 @@ import kotlinx.coroutines.flow.map
 
 class UserPreferences private constructor(private val dataStore: DataStore<Preferences>) {
 
+    companion object {
+        @Volatile
+        private var INSTANCE: UserPreferences? = null
+
+        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences {
+            return INSTANCE ?: synchronized(this) {
+                val instance = UserPreferences(dataStore)
+                INSTANCE = instance
+                instance
+            }
+        }
+
+        private val LOGIN_SESSION = booleanPreferencesKey("login_session")
+        private val TOKEN = stringPreferencesKey("token")
+        private val NAME = stringPreferencesKey("name")
+
+    }
+
     fun getLoginSession(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[LOGIN_SESSION] ?: false
@@ -47,23 +65,5 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
             preferences.remove(TOKEN)
             preferences.remove(NAME)
         }
-    }
-
-    companion object {
-        @Volatile
-        private var INSTANCE: UserPreferences? = null
-
-        fun getInstance(dataStore: DataStore<Preferences>): UserPreferences {
-            return INSTANCE ?: synchronized(this) {
-                val instance = UserPreferences(dataStore)
-                INSTANCE = instance
-                instance
-            }
-        }
-
-        private val LOGIN_SESSION = booleanPreferencesKey("login_session")
-        private val TOKEN = stringPreferencesKey("token")
-        private val NAME = stringPreferencesKey("name")
-
     }
 }

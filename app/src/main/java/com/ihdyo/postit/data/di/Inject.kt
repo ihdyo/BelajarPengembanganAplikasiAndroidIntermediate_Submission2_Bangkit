@@ -3,12 +3,12 @@ package com.ihdyo.postit.data.di
 import android.content.Context
 import com.ihdyo.postit.data.api.APIConfig
 import com.ihdyo.postit.data.db.StoryDB
-import com.ihdyo.postit.repository.MainRepository
+import com.ihdyo.postit.repository.UserRepository
 
-object Injection {
-    fun provideRepository(context: Context): MainRepository {
+object Inject {
+    fun provideRepository(context: Context): UserRepository {
         val database = StoryDB.getDatabase(context)
         val apiService = APIConfig.getApiService()
-        return MainRepository(database, apiService)
+        return UserRepository(database, apiService)
     }
 }
