@@ -62,7 +62,7 @@ class CVPassword : AppCompatEditText, View.OnTouchListener {
     }
 
     private fun validatePassword() {
-        isPasswordValid = (text?.length ?: 0) >= 6
+        isPasswordValid = (text?.length ?: 0) >= 8
         error = if (!isPasswordValid) {
             resources.getString(R.string.passwordLess)
         } else {
