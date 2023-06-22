@@ -1,4 +1,4 @@
-package com.ihdyo.postit.repository.utils
+package com.ihdyo.postit.utils
 
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
@@ -6,7 +6,7 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 @ExperimentalCoroutinesApi
-class MainDispatcherRule(
+class DispatcherRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 ) : TestWatcher() {
     override fun starting(description: Description) {
