@@ -17,9 +17,7 @@ suspend fun <T> LiveData<T>.getOrAwaitValue(
 ): T {
     val data = withTimeoutOrNull(timeUnit.toMillis(time)) {
         val latch = CompletableDeferred<Unit>()
-        val observer = Observer<T> { value ->
-            latch.complete(Unit)
-        }
+        val observer = Observer<T> { latch.complete(Unit) }
         withContext(Dispatchers.Main.immediate) {
             observeForever(observer)
             afterObserve()
