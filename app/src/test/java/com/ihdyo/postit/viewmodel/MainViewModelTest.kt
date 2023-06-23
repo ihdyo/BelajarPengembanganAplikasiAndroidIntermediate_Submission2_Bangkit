@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListUpdateCallback
 import com.google.android.gms.maps.model.LatLng
 import com.ihdyo.postit.adapter.StoryAdapter
 import com.ihdyo.postit.data.db.DataDetail
+import com.ihdyo.postit.repository.UserRepository
 import com.ihdyo.postit.utils.Dummy.generateDummyNewStories
 import com.ihdyo.postit.utils.DispatcherRule
 import com.ihdyo.postit.utils.getOrAwaitValue
@@ -34,7 +35,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.io.File
 
 @RunWith(MockitoJUnitRunner::class)
-class MainViewModelTest {
+class UserRepositoryTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
@@ -42,14 +43,14 @@ class MainViewModelTest {
     @get:Rule
     var dispatcherRule = DispatcherRule()
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var userRepository: UserRepository
 
     @Mock
     private var mockFile = File("fileName")
 
     @Before
     fun setUp() {
-        mainViewModel = Mockito.mock(MainViewModel::class.java)
+        userRepository = Mockito.mock(UserRepository::class.java)
     }
 
     @Test
@@ -57,11 +58,11 @@ class MainViewModelTest {
         val expectedRegisterMessage = MutableLiveData<String>()
         expectedRegisterMessage.value = "Uploaded"
 
-        Mockito.`when`(mainViewModel.message).thenReturn(expectedRegisterMessage)
+        Mockito.`when`(userRepository.message).thenReturn(expectedRegisterMessage)
 
-        val actualRegisterMessage = mainViewModel.message.getOrAwaitValue()
+        val actualRegisterMessage = userRepository.message.getOrAwaitValue()
 
-        Mockito.verify(mainViewModel).message
+        Mockito.verify(userRepository).message
         assertNotNull(actualRegisterMessage)
         assertEquals(expectedRegisterMessage.value, actualRegisterMessage)
     }
@@ -71,11 +72,11 @@ class MainViewModelTest {
         val expectedLoadingData = MutableLiveData<Boolean>()
         expectedLoadingData.value = true
 
-        Mockito.`when`(mainViewModel.isLoading).thenReturn(expectedLoadingData)
+        Mockito.`when`(userRepository.isLoading).thenReturn(expectedLoadingData)
 
-        val actualLoading = mainViewModel.isLoading.getOrAwaitValue()
+        val actualLoading = userRepository.isLoading.getOrAwaitValue()
 
-        Mockito.verify(mainViewModel).isLoading
+        Mockito.verify(userRepository).isLoading
         assertNotNull(actualLoading)
         assertEquals(expectedLoadingData.value, actualLoading)
     }
@@ -95,8 +96,8 @@ class MainViewModelTest {
         val token = "sampleToken"
         val latlng = LatLng(1.1, 1.1)
 
-        mainViewModel.upload(imageMultipart, description, latlng.latitude, latlng.longitude, token)
-        Mockito.verify(mainViewModel).upload(
+        userRepository.upload(imageMultipart, description, latlng.latitude, latlng.longitude, token)
+        Mockito.verify(userRepository).upload(
             imageMultipart,
             description,
             latlng.latitude,
@@ -104,10 +105,10 @@ class MainViewModelTest {
             token
         )
 
-        Mockito.`when`(mainViewModel.message).thenReturn(expectedUploadMessage)
+        Mockito.`when`(userRepository.message).thenReturn(expectedUploadMessage)
 
-        val actualUploadMessage = mainViewModel.message.getOrAwaitValue()
-        Mockito.verify(mainViewModel).message
+        val actualUploadMessage = userRepository.message.getOrAwaitValue()
+        Mockito.verify(userRepository).message
         assertNotNull(actualUploadMessage)
         assertEquals(expectedUploadMessage.value, actualUploadMessage)
     }
@@ -121,8 +122,8 @@ class MainViewModelTest {
         val story = MutableLiveData<PagingData<DataDetail>>()
         val token = "sampleToken"
         story.value = data
-        Mockito.`when`(mainViewModel.getPagingStories(token)).thenReturn(story)
-        val actualData = mainViewModel.getPagingStories(token).getOrAwaitValue()
+        Mockito.`when`(userRepository.getPagingStories(token)).thenReturn(story)
+        val actualData = userRepository.getPagingStories(token).getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.StoryDetailDiffCallback(),
@@ -133,10 +134,10 @@ class MainViewModelTest {
         differ.submitData(actualData)
 
         advanceUntilIdle()
-        Mockito.verify(mainViewModel).getPagingStories(token)
+        Mockito.verify(userRepository).getPagingStories(token)
         assertNotNull(differ.snapshot())
         assertEquals(dummyStory.size, differ.snapshot().size)
-        assertEquals(dummyStory[0].name, differ.snapshot().items[0].name)
+        assertEquals(dummyStory[0].name, differ.snapshot().items.getOrNull(0)?.name)
     }
 
     @OptIn(ExperimentalPagingApi::class, ExperimentalCoroutinesApi::class)
@@ -147,8 +148,8 @@ class MainViewModelTest {
         val story = MutableLiveData<PagingData<DataDetail>>()
         val token = "sampleToken"
         story.value = data
-        Mockito.`when`(mainViewModel.getPagingStories(token)).thenReturn(story)
-        val actualData = mainViewModel.getPagingStories(token).getOrAwaitValue()
+        Mockito.`when`(userRepository.getPagingStories(token)).thenReturn(story)
+        val actualData = userRepository.getPagingStories(token).getOrAwaitValue()
 
         val differ = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.StoryDetailDiffCallback(),
@@ -159,7 +160,7 @@ class MainViewModelTest {
         differ.submitData(actualData)
 
         advanceUntilIdle()
-        Mockito.verify(mainViewModel).getPagingStories(token)
+        Mockito.verify(userRepository).getPagingStories(token)
         assertNotNull(differ.snapshot())
         assertTrue(differ.snapshot().isEmpty())
         print(differ.snapshot().size)
