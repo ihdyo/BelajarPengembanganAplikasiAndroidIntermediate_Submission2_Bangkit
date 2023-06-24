@@ -26,6 +26,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
@@ -60,9 +61,10 @@ class MainViewModelTest{
         val data: PagingData<DataDetail> = Differ.snapshot(dummyStory)
         val expectedData = MutableLiveData<PagingData<DataDetail>>()
         expectedData.value = data
-        Mockito.`when`(viewModel.getPagingStories(token)).thenReturn(story)
 
-        val actual: PagingData<DataDetail> = viewModel.getPagingStories(token).getOrAwaitValue()
+        `when`(storyRepository.getPagingStories(token)).thenReturn(story)
+
+        val actual: PagingData<DataDetail> = story.getOrAwaitValue()
         val simlate = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.DIFF_CALLBACK,
             updateCallback = updateCallback,
@@ -80,9 +82,10 @@ class MainViewModelTest{
         val data: PagingData<DataDetail> = Differ.snapshot(emptyList())
         val expectedData = MutableLiveData<PagingData<DataDetail>>()
         expectedData.value = data
-        Mockito.`when`(viewModel.getPagingStories(token)).thenReturn(story)
 
-        val actual: PagingData<DataDetail> = viewModel.getPagingStories(token).getOrAwaitValue()
+        `when`(storyRepository.getPagingStories(token)).thenReturn(story)
+
+        val actual: PagingData<DataDetail> = story.getOrAwaitValue()
         val simlate = AsyncPagingDataDiffer(
             diffCallback = StoryAdapter.DIFF_CALLBACK,
             updateCallback = updateCallback,
@@ -92,6 +95,7 @@ class MainViewModelTest{
         Assert.assertEquals(0, simlate.snapshot().size) // Checking data is null
     }
 }
+
 private val updateCallback = object : ListUpdateCallback {
     override fun onInserted(position: Int, count: Int){}
     override fun onRemoved(position: Int, count: Int) {}
