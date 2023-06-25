@@ -1,4 +1,4 @@
-package com.ihdyo.postit
+package com.ihdyo.postit.utils
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
